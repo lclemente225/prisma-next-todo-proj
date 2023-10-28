@@ -1,5 +1,5 @@
 ##Project Details
-This is my first project using Prisma, MongoDB and NextJs.
+This is my first project using Prisma, MongoDB, Typescript and NextJs.
 
 
 ##Purpose
