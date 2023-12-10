@@ -7,17 +7,18 @@ import  TodoItem  from '@/components/TodoItem'
 //this is passed down as props to the new/page.tsx
 async function toggleTodo(id: string, complete: Boolean){
   'use server'
-  console.log("toggle todo",id, complete);
-  await prisma?.todo.update({
+  //console.log("toggle todo",id, complete);
+  await prismadb?.todo.update({
     where: { id },
     data: {
       complete
     }
   })
 }
-export default function Home(){
 
-  let todos = testData;
+export default async function Home(){
+
+  let todos = await prismadb.todo.findMany();
 
   return (
     <>
@@ -33,7 +34,7 @@ export default function Home(){
       </header>
       <ul className='pl-4'>
         {
-          todos.map(todo => (
+          todos.map((todo: any) => (
             <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo} />
           ))
         }

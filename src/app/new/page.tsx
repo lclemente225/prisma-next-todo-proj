@@ -19,7 +19,6 @@ async function createTodo(data: FormData){
         }
     })
     redirect("/")
-    console.log("hi")
 }
 
 const Page = () => {
