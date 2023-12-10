@@ -1,37 +1,42 @@
 import Link from 'next/link'
-import { prisma } from '@/db'
+import  prismadb  from '@/db'
 import {testData} from '../dummy-data/data'
+import  TodoItem  from '@/components/TodoItem'
 
-export default async function Home(){
-  await prisma.todo.insert({
-      data:{
-        title: "Secondth",
-        complete: false,
-        createdAt: "Now",
-        updatedAt: "Now"
-      }
-    })
-  const todoss = await prisma.todo.findMany();
-  const todos = testData;
+//change or update a value in database
+//this is passed down as props to the new/page.tsx
+async function toggleTodo(id: string, complete: Boolean){
+  'use server'
+  console.log("toggle todo",id, complete);
+  await prisma?.todo.update({
+    where: { id },
+    data: {
+      complete
+    }
+  })
+}
+export default function Home(){
+
+  let todos = testData;
 
   return (
     <>
       <header className=' flex justify-between items-center mb-4'>
-          <h1 className="text-2xl">Todos</h1>
-          <Link href="/dude" className='border border-slate-300 text-slate-300 px-2 py-1
+          <h1 className="text-2xl">
+            Todos
+          </h1>
+          <Link href="/new" className='border border-slate-300 text-slate-300 px-2 py-1
           rounded hover:bg-slate-700 focus-within:bg-slate-700 outline-none'
           >
             New
           </Link>
       </header>
-      <h1>{todoss.title}</h1>
       <ul className='pl-4'>
-        {todos.map(todo => (
-          <li key={todo.id}>
-            <h1>{todo.title}</h1>
-            <p>{todo.content}</p>
-          </li>
-        ))}
+        {
+          todos.map(todo => (
+            <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo} />
+          ))
+        }
       </ul>
     </>
   )

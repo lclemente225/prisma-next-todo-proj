@@ -1,6 +1,6 @@
 
 export const testData = [{
-    id: 1,
+    id: "1",
     title: "Harry Potter and teh Sorcerer's Stone",
     complete: false,
     createdAt: "Now",
@@ -8,7 +8,7 @@ export const testData = [{
     content: "finish washing dishes"
   },
   {
-    id: 2,
+    id: "2",
     title: "Star Wars the Old Republic",
     complete: true,
     createdAt: "Lunar Year",
@@ -16,7 +16,7 @@ export const testData = [{
     content: ""
   },
   {
-    id: 3,
+    id: "3",
     title: "The Lion the Witch and the Wardrobe",
     complete: false,
     createdAt: "Today",
@@ -24,7 +24,7 @@ export const testData = [{
     content: ""
   },
   {
-    id: 4,
+    id: "4",
     title: "Once Upon a Hollywood",
     complete: true,
     createdAt: "Tomorrow",

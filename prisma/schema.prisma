@@ -7,13 +7,13 @@ generator client {
 
 datasource db {
   provider = "mongodb"
-  url = env("DATABASE_URL_HOST")
+  url = env("DATABASE_URL")
 }
 
 model Todo {
   id        String  @id @default(auto()) @map("_id") @db.ObjectId 
   title     String
   complete  Boolean
-  createdAt String
-  updatedAt String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
