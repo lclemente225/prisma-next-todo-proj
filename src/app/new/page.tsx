@@ -7,14 +7,20 @@ import { redirect } from 'next/navigation';
 async function createTodo(data: FormData){
     "use server"
     const title = data.get("title")?.valueOf();
-
+    let duration = data.get("duration")?.valueOf();
+    duration = parseInt(duration)
     if(typeof title !== 'string' || title.length === 0){
         throw new Error("invalid title")
     }
 
+    if(typeof duration !== 'number' || !duration){
+      throw new Error("invalid duration")
+    }
+
     await prismadb.todo.create({
         data:{
-            title, 
+            title,
+            duration, 
             complete: false
         }
     })
@@ -32,11 +38,18 @@ const Page = () => {
 
       <form
         action={createTodo} 
-        className='flex gap-2 flex-col'>
-        <input type="text" name="title" 
-            className='border border-slate-300 bg-transparent rounded px-2 py-1
+        className='flex gap-2 flex-col align-center w-900'>
+          <label htmlFor='todo-title'>Title </label>
+        <input type="text" name="title" id="todo-title"
+            className='border border-slate-300 bg-transparent rounded mx-3 px-2 py-1
             outline-none focus-within:border-slate-100'/>
-        <div className='flex gap-1 justify-end'>
+          
+          <label htmlFor='todo-dur'>Duration(minutes)</label>
+        <input type="text" name="duration" id="todo-dur" inputMode="numeric"
+            className='border border-slate-300 bg-transparent rounded mx-3 px-2 py-1
+            outline-none focus-within:border-slate-100'/>
+          
+        <div className='flex gap-1 justify-center my-3'>
             <Link href=".." 
                 className='border border-slate-300 text-slate-300 px-2 py-1
                 rounded hover:bg-slate-700 focus-within:bg-slate-700 outline-none'>

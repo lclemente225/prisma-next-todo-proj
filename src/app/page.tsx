@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import  prismadb  from '@/db'
-import {testData} from '../dummy-data/data'
 import  TodoItem  from '@/components/TodoItem'
 
 //change or update a value in database

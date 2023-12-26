@@ -2,11 +2,12 @@
 type TodoItemProps = {
     id: string
     title: string
+    duration: number
     complete: boolean
     toggleTodo: (id: string, complete: boolean) => void
 }
 
-export default function TodoItem({id, title, complete, toggleTodo}: TodoItemProps){
+export default function TodoItem({id, title, duration, complete, toggleTodo}: TodoItemProps){
     return (
     <li className="my-1">
         <input 
@@ -18,6 +19,9 @@ export default function TodoItem({id, title, complete, toggleTodo}: TodoItemProp
         <label htmlFor={id} className="cursor-pointer peer-checked:line-through 
         peer-checked:slate-500">
             {title}
+            <div>
+                Will take {duration} min to start
+            </div>
         </label>
     </li>
     )
