@@ -37,3 +37,4 @@ next-env.d.ts
 
 .env
 dev.db*
+/src/app/api/dude.tsx
