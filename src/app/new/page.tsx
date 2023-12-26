@@ -8,7 +8,7 @@ async function createTodo(data: FormData){
     "use server"
     const title = data.get("title")?.valueOf();
     let duration = data.get("duration")?.valueOf();
-    duration = parseInt(duration)
+    duration = parseInt(duration) //@ts-ignore
     if(typeof title !== 'string' || title.length === 0){
         throw new Error("invalid title")
     }
