@@ -3,7 +3,7 @@ import  prismadb  from '@/db'
 import  TodoItem  from '@/components/TodoItem'
 
 //change or update a value in database
-//this is passed down as props to the new/page.tsx
+//this is passed down as props to the ./new/page.tsx
 async function toggleTodo(id: string, complete: Boolean){
   'use server'
   //console.log("toggle todo",id, complete);

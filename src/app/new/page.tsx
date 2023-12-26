@@ -46,7 +46,7 @@ const Page = () => {
             className='border border-slate-300 bg-transparent rounded mx-3 px-2 py-1
             outline-none focus-within:border-slate-100'/>
           
-          <label htmlFor='todo-dur'>Duration(minutes)</label>
+          <label htmlFor='todo-dur'>How long will it take to do the first step? (minutes)</label>
         <input type="text" name="duration" id="todo-dur" inputMode="numeric"
             className='border border-slate-300 bg-transparent rounded mx-3 px-2 py-1
             outline-none focus-within:border-slate-100'/>
