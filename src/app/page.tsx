@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import  prismadb  from '@/db'
 import  TodoItem  from '@/components/TodoItem'
+//THIS IS THE MAIN PAGE
 
 //change or update a value in database
 //this is passed down as props to the ./new/page.tsx
