@@ -4,7 +4,7 @@ import prismadb from '@/db';
 import { redirect } from 'next/navigation';
 
 //form action fn
-async function createTodo(data: FormData){  
+async function createTodo(data:FormData){  
     "use server"
     const title = data.get("title")?.valueOf();
     let duration = data.get("duration")?.valueOf();
@@ -27,6 +27,7 @@ async function createTodo(data: FormData){
     })
     redirect("/")
 }
+
 
 const Page = () => {
   return (
