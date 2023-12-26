@@ -4,11 +4,12 @@ import prismadb from '@/db';
 import { redirect } from 'next/navigation';
 
 //form action fn
-async function createTodo(data: FormData){
+async function createTodo(data: FormData){  
     "use server"
     const title = data.get("title")?.valueOf();
     let duration = data.get("duration")?.valueOf();
-    duration = parseInt(duration) //@ts-ignore
+    //@ts-ignore
+    duration = parseInt(duration);
     if(typeof title !== 'string' || title.length === 0){
         throw new Error("invalid title")
     }
