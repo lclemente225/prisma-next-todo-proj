@@ -5,9 +5,10 @@ type TodoItemProps = {
     duration: number
     complete: boolean
     toggleTodo: (id: string, complete: boolean) => void
+    deleteItem: (id: string) => void
 }
 
-export default function TodoItem({id, title, duration, complete, toggleTodo}: TodoItemProps){
+export default function TodoItem({id, title, duration, complete, toggleTodo, deleteItem}: TodoItemProps){
     return (
     <li className="my-1">
         <input 
@@ -23,6 +24,12 @@ export default function TodoItem({id, title, duration, complete, toggleTodo}: To
                 Will take {duration} min to start
             </div>
         </label>
+        <button 
+            className='border border-slate-300 text-slate-300 px-2 py-1
+            rounded hover:bg-slate-700 focus-within:bg-slate-700 outline-none'
+            onClick={() => deleteItem(id)}>
+                Delete Item
+        </button>
     </li>
     )
 }

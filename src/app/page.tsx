@@ -16,6 +16,23 @@ async function toggleTodo(id: string, complete: Boolean){
   })
 }
 
+async function deleteItem(id: string){
+  'use server'
+  if(!prismadb){
+    throw new Error("Prisma client not initialized")
+  }
+
+  try {
+  //delete todo item
+  await prismadb?.todo.delete({where: {id}})
+
+  }catch(err){
+    console.error("Failed to delete todo item", err);
+    throw err
+  }
+  
+}
+
 export default async function Home(){
 
   let todos = await prismadb.todo.findMany();
@@ -35,7 +52,7 @@ export default async function Home(){
       <ul className='pl-4'>
         {
           todos.map((todo: any) => (
-            <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo} />
+            <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo} deleteItem={deleteItem}/>
           ))
         }
       </ul>
