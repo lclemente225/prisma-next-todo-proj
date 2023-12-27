@@ -66,6 +66,6 @@ const Page = () => {
       </form>
     </>
   )
-}
+} 
 
 export default Page
