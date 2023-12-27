@@ -39,7 +39,7 @@ const Page = () => {
       </header>
 
       <form
-        action={createTodo} 
+        action={createTodo}
         className='flex gap-2 flex-col align-center w-900'>
           <label htmlFor='todo-title'>Title </label>
         <input type="text" name="title" id="todo-title"
