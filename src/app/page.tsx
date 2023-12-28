@@ -36,6 +36,8 @@ async function deleteItem(id: string){
 }
 
 export default async function Home(){
+  'use client'
+  
   try {
     let todos = await prismadb.todo.findMany();
 
@@ -52,9 +54,11 @@ export default async function Home(){
           </Link>
         </header>
         <ul className='pl-4'>
-          {todos.map((todo: any) => (
+          {
+          todos.map((todo: any) => (
             <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo} deleteItem={deleteItem}/>
-          ))}
+          ))
+          }
         </ul>
       </>
     );
