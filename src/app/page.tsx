@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import  prismadb  from '@/db'
 import  TodoItem  from '@/components/TodoItem'
+import { revalidatePath } from 'next/cache'
 //THIS IS THE MAIN PAGE
 
 //change or update a value in database
@@ -25,6 +26,7 @@ async function deleteItem(id: string){
   try {
   //delete todo item
   await prismadb?.todo.delete({where: {id}})
+  revalidatePath('/')
 
   }catch(err){
     console.error("Failed to delete todo item", err);
@@ -34,12 +36,12 @@ async function deleteItem(id: string){
 }
 
 export default async function Home(){
+  try {
+    let todos = await prismadb.todo.findMany();
 
-  let todos = await prismadb.todo.findMany();
-
-  return (
-    <>
-      <header className=' flex justify-between items-center mb-4'>
+    return (
+      <>
+        <header className=' flex justify-between items-center mb-4'>
           <h1 className="text-2xl">
             Todos
           </h1>
@@ -48,14 +50,21 @@ export default async function Home(){
           >
             New
           </Link>
-      </header>
-      <ul className='pl-4'>
-        {
-          todos.map((todo: any) => (
+        </header>
+        <ul className='pl-4'>
+          {todos.map((todo: any) => (
             <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo} deleteItem={deleteItem}/>
-          ))
-        }
-      </ul>
-    </>
-  )
+          ))}
+        </ul>
+      </>
+    );
+  } catch (error) {
+    console.error('Error fetching todos:', error);
+
+    return (
+      <div className="text-red-500">
+        An error occurred while fetching todos. Please try again later.
+      </div>
+    );
+  }
 }

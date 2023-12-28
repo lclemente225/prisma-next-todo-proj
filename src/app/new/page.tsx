@@ -41,13 +41,13 @@ const Page = () => {
       <form
         action={createTodo}
         className='flex gap-2 flex-col align-center w-900'>
-          <label htmlFor='todo-title'>Title </label>
+          <label htmlFor='todo-title'>What do?</label>
         <input type="text" name="title" id="todo-title"
             className='border border-slate-300 bg-transparent rounded mx-3 px-2 py-1
             outline-none focus-within:border-slate-100'/>
           
           <label htmlFor='todo-dur'>How long will it take to do the first step? (minutes)</label>
-        <input type="text" name="duration" id="todo-dur" inputMode="numeric"
+        <input type="text" name="duration" id="todo-dur" inputMode="numeric" pattern='[0-9]+'
             className='border border-slate-300 bg-transparent rounded mx-3 px-2 py-1
             outline-none focus-within:border-slate-100'/>
           
