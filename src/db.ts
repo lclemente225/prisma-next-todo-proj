@@ -11,7 +11,7 @@ declare global {
   if (process.env.NODE_ENV !== "production") globalThis.prisma = prismadb;
   
   export default prismadb;
-/*
+/* 
 npx prisma generate + npx prisma db push -> everytime you edit the schema.prisma
 npx prisma studio -> start server gui
 */
