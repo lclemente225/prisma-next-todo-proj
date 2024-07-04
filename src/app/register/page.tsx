@@ -19,11 +19,15 @@ export default function Register(){
     const [isPWCorrect, setIsPWCorrect] = useState(false);
     const [isEmailCorrect, setIsEmailCorrect] = useState(false);
 
-    function handleRegister(e:any){
+    function handleUserData(e:any){
         setUserInfo((obj:userInfoTypes) => {
         console.log(obj)
         return {...obj, [e.target.title]:e.target.value}
-    })
+        })
+    }
+
+    function handleRegisterSubmit(){
+        
     }
     return (
         <>
@@ -41,7 +45,7 @@ export default function Register(){
                 value={userInfo.username}
                 type="text"
                 title="username"
-                onChange={handleRegister}
+                onChange={handleUserData}
                 placeholder="username"
                 className='w-70'/>
             <h4 className='text-slate-200'>Email</h4>
@@ -53,7 +57,7 @@ export default function Register(){
                     value={userInfo.email}
                     type="email"
                     title="email"
-                    onChange={handleRegister}
+                    onChange={handleUserData}
                     placeholder="someone@gmail.com"
                     className='w-70'/>
                 <input 
@@ -74,7 +78,7 @@ export default function Register(){
             <div className='flex gap-5'>
                 <input 
                     value={userInfo.password}
-                    onChange={handleRegister}
+                    onChange={handleUserData}
                     type="password"
                     title="password"
                     placeholder="Password"

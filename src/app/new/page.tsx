@@ -17,12 +17,13 @@ async function createTodo(data:FormData){
     if(typeof duration !== 'number' || !duration){
       throw new Error("invalid duration")
     }
-
+    let {userId, username} = JSON.parse(localStorage.getItem("userInfo"));
     await prismadb.todo.create({
         data:{
             title,
             duration, 
-            complete: false
+            complete: false,
+            userId: userId ? userId : 0
         }
     })
     redirect("/todoList")

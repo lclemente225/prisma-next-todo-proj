@@ -1,8 +1,6 @@
 'use client'
 import React, {useState} from 'react'
 import Link from 'next/link'
-import prismadb from '@/db';
-import { redirect } from 'next/navigation';
 import GenHeader from '../ui/dashboard/GenHeader'
 
 export default async function Login(){
@@ -11,23 +9,12 @@ export default async function Login(){
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
 
-    const handleLogin = async (e:any) => {
-        e.preventDefault();
-        // Add your own authentication method here
-        const user = await prismadb.user.findUnique({
-          where: {
-            email: emailValue,
-          },
-        });
-    
-        if (!user || !(await bcrypt.compare(passwordValue, user.password))) {
-          setErrorMessage('Invalid username or password');
-          return;
-        }
-    
-        // Redirect the user to dashboard or wherever you want
-        redirect('/todoList');
-      };
+    function loginSubmit(){
+        fetch('/lib/login')
+        .then(() => {
+            
+        })
+    }
 
     return (
         <>
@@ -53,7 +40,9 @@ export default async function Login(){
                 className='w-70'/>
             <button 
                 disabled={!emailValue || !passwordValue}
+                onSubmit={}
                 className='w-50 border rounded px-4 py-2 my-4 hover:bg-slate-300 hover:cursor-pointer '>
+                
                 Log In
             </button>
             <button>Forgot Password?</button>

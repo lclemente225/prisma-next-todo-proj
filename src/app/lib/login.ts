@@ -1,10 +1,20 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import prismadb from '@/db';
-import bcrypt from 'bcryptjs'
+import bcrypt from 'bcryptjs';
+import NextAuth from 'next-auth';
+import { authConfig } from '../../../auth.config';
+import Credentials from 'next-auth/providers/credentials';
+
+export const { auth, signIn, signOut } = NextAuth({
+  ...authConfig,
+  providers: [Credentials({loginHandler})],
+});
 
 export default async function loginHandler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'GET') {
+  if (req.method === 'POST') {
     const { email, password } = req.body;
+    let salt = bcrypt. genSaltSync(15);
+    let hashPw = bcrypt.hashSync(password, salt);
 
     const user = await prismadb.user.findUnique({
       where: {
@@ -12,7 +22,7 @@ export default async function loginHandler(req: NextApiRequest, res: NextApiResp
       },
     });
 
-    if (!user || !(await bcrypt.compare(password, user.password))) {
+    if (!user || !(await bcrypt.compare(hashPw, user.password))) {
       return res.status(401).json({ message: 'Invalid username or password' });
     }
 
@@ -22,6 +32,6 @@ export default async function loginHandler(req: NextApiRequest, res: NextApiResp
   }
 
   // Handle any other HTTP method
-  res.setHeader('Allow', ['GET']);
+  res.setHeader('Allow', ['POST']);
   res.status(405).end(`Method ${req.method} Not Allowed`);
 }

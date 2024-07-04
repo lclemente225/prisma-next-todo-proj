@@ -4,8 +4,9 @@ import bcrypt from 'bcryptjs'
 
 export default async function registerHandler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { email, password } = req.body;
-    let saltPass = "make a salt pass using bcrypt dude"
+    const { username, email, password } = req.body;
+    let salt = bcrypt.genSaltSync(15);
+    let hashedPass = bcrypt.hashSync(password, salt)
 
     const user = await prismadb.user.findUnique({
       where: {
@@ -17,8 +18,13 @@ export default async function registerHandler(req: NextApiRequest, res: NextApiR
       return res.status(401).json({ message: 'That account exists' });
     }
 
-    // Here you should handle creating a session or JWT for the user
-
+    await prismadb.user.create({
+      data: {
+        username: username,
+        email: email,
+        password: hashedPass
+      },
+    });
     
     // For now, let's just return a success message
     return res.status(200).json({ message: 'Login successful' });
