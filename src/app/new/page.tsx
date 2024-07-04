@@ -25,7 +25,7 @@ async function createTodo(data:FormData){
             complete: false
         }
     })
-    redirect("/")
+    redirect("/todoList")
 }
 
 

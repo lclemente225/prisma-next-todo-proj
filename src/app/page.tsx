@@ -1,65 +1,30 @@
 import Link from 'next/link'
-import  prismadb  from '@/db'
-import  TodoItem  from '@/components/TodoItem'
-import { revalidatePath } from 'next/cache'
-//THIS IS THE MAIN PAGE
-
-//change or update a value in database
-//this is passed down as props to the ./new/page.tsx
-async function toggleTodo(id: string, complete: Boolean){
-  'use server'
-  //console.log("toggle todo",id, complete);
-  await prismadb?.todo.update({
-    where: { id },
-    data: {
-      complete
-    }
-  })
-}
-
-async function deleteItem(id: string){
-  'use server'
-  if(!prismadb){
-    throw new Error("Prisma client not initialized")
-  }
-
-  try {
-  //delete todo item
-  await prismadb?.todo.delete({where: {id}})
-  revalidatePath('/')
-
-  }catch(err){
-    console.error("Failed to delete todo item", err);
-    throw err
-  }
-  
-}
 
 export default async function Home(){
   'use client'
   
   try {
-    let todos = await prismadb.todo.findMany();
 
     return (
       <>
-        <header className=' flex justify-between items-center mb-4'>
-          <h1 className="text-2xl">
-            Todos
-          </h1>
-          <Link href="/new" className='border border-slate-300 text-slate-300 px-2 py-1
-          rounded hover:bg-slate-700 focus-within:bg-slate-700 outline-none'
-          >
-            New
+      <header className=' flex justify-center items-center mb-4'>
+        <h1 className="text-2xl">
+          Todos
+        </h1>
+      </header>
+      <div className='flex border h-full w-100 justify-center align-center gap-2 '>
+        <div className='flex border h-50 w-50 justify-center align-center gap-2'>
+          <Link href="login" 
+          className='border border-slate-500 px-4 py-2 rounded hover:bg-slate-700'>
+            Login
           </Link>
-        </header>
-        <ul className='pl-4'>
-          {
-          todos.map((todo: any) => (
-            <TodoItem key={todo.id} {...todo} toggleTodo={toggleTodo} deleteItem={deleteItem}/>
-          ))
-          }
-        </ul>
+          <Link href="register" 
+          className='border border-slate-500 px-4 py-2 rounded hover:bg-slate-700'>
+            Register
+          </Link>
+        </div>
+      </div>
+        
       </>
     );
   } catch (error) {
@@ -78,7 +43,7 @@ export default async function Home(){
           </Link>
         </header>
       <div className="text-red-500">
-        An error occurred while fetching todos. Please try again later.
+        An error occurred. Please Refresh
       </div>
       </>
     );
