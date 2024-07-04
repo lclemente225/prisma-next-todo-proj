@@ -17,7 +17,9 @@ export default function handler(
         }
       })
   }
+
  const todos = prismadb.todo.findMany();
 
   res.status(200).json({ message: 'Hello from Next.js!' })
 }
+

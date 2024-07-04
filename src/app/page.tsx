@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import GenHeader from './ui/dashboard/GenHeader';
 
 export default async function Home(){
   'use client'
@@ -7,13 +8,12 @@ export default async function Home(){
 
     return (
       <>
-      <header className=' flex justify-center items-center mb-4'>
-        <h1 className="text-2xl">
-          Todos
-        </h1>
-      </header>
-      <div className='flex border h-full w-100 justify-center align-center gap-2 '>
-        <div className='flex border h-50 w-50 justify-center align-center gap-2'>
+      <GenHeader/>
+      <span className=' flex justify-center items-center mb-4'>
+        Welcome to Lawrence's Task List App.
+      </span>
+      <div className='flex h-full w-100 justify-center align-center gap-2 '>
+        <div className='flex h-50 w-50 justify-center align-center gap-2'>
           <Link href="login" 
           className='border border-slate-500 px-4 py-2 rounded hover:bg-slate-700'>
             Login
@@ -43,7 +43,7 @@ export default async function Home(){
           </Link>
         </header>
       <div className="text-red-500">
-        An error occurred. Please Refresh
+        An error occurred. Please Refresh.
       </div>
       </>
     );
