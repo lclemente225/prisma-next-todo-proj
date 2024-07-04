@@ -10,32 +10,59 @@ export default async function Login(){
     const [errorMessage, setErrorMessage] = useState('');
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
+
+    const handleLogin = async (e:any) => {
+        e.preventDefault();
+        // Add your own authentication method here
+        const user = await prismadb.user.findUnique({
+          where: {
+            email: emailValue,
+          },
+        });
+    
+        if (!user || !(await bcrypt.compare(passwordValue, user.password))) {
+          setErrorMessage('Invalid username or password');
+          return;
+        }
+    
+        // Redirect the user to dashboard or wherever you want
+        redirect('/todoList');
+      };
+
     return (
         <>
         <GenHeader/>
-        <div className="content-container">
-        <h1>Log In</h1>
-        {
-        errorMessage && 
-        <div className="fail"> 
-            {errorMessage} 
-            </div> 
-            }
-        <input 
-            value={emailValue}
-            onChange={e => setEmailValue(e.target.value)}
-            placeholder="someone@gmail.com"/>
-        <input 
-            value={passwordValue}
-            onChange={e => setPasswordValue(e.target.value)}
-            type="password"
-            placeholder="password"/>
-        <button 
-            disabled={!emailValue || !passwordValue}
-            >Log In</button>
-        <button >Forgot Password?</button>
-        <button onClick={() => redirect('/register')}>Don't have an account? Sign Up</button>
-    </div>
+        <div className="flex flex-col border w-full h-90 py-5 items-center gap-2">
+            <h1 className='mb-5 text-2xl'>Log In</h1>
+            {
+            errorMessage && 
+            <div className="fail"> 
+                {errorMessage} 
+                </div> 
+                }
+            <input 
+                value={emailValue}
+                onChange={e => setEmailValue(e.target.value)}
+                placeholder="someone@gmail.com"
+                className='w-70'/>
+            <input 
+                value={passwordValue}
+                onChange={e => setPasswordValue(e.target.value)}
+                type="password"
+                placeholder="password"
+                className='w-70'/>
+            <button 
+                disabled={!emailValue || !passwordValue}
+                className='w-50 border rounded px-4 py-2 my-4 hover:bg-slate-300 hover:cursor-pointer '>
+                Log In
+            </button>
+            <button>Forgot Password?</button>
+
+            <div>
+                Don't have an account? 
+                <Link href='/register'className='hover:text-green-400 mx-2'>Sign Up with Us!</Link>
+            </div>
+        </div>
         </>
     )
 }

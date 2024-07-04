@@ -1,39 +1,102 @@
-import React from 'react'
+'use client'
+import React, {useState} from 'react'
 import Link from 'next/link'
 import prismadb from '@/db';
 import { redirect } from 'next/navigation';
 import GenHeader from '../ui/dashboard/GenHeader';
 
-async function createTodo(data:FormData){  
-    "use server"
-    const title = data.get("title")?.valueOf();
-    let duration = data.get("duration")?.valueOf();
-    //@ts-ignore
-    duration = parseInt(duration);
-    if(typeof title !== 'string' || title.length === 0){
-        throw new Error("invalid title")
-    }
-
-    if(typeof duration !== 'number' || !duration){
-      throw new Error("invalid duration")
-    }
-
-    await prismadb.todo.create({
-        data:{
-            title,
-            duration, 
-            complete: false
-        }
-    })
-    redirect("/todoList")
+interface userInfoTypes {
+    email: string;
+    password: string;
+    username: string;
 }
 
-export default async function Register(){
+export default function Register(){
     'use client'
+    //@ts-ignore
+    const [errorMessage, setErrorMessage] = useState('');
+    const [userInfo, setUserInfo] = useState<userInfoTypes>({email:'', password:'', username:''});
+    const [isPWCorrect, setIsPWCorrect] = useState(false);
+    const [isEmailCorrect, setIsEmailCorrect] = useState(false);
+
+    function handleRegister(e:any){
+        setUserInfo((obj:userInfoTypes) => {
+        console.log(obj)
+        return {...obj, [e.target.title]:e.target.value}
+    })
+    }
     return (
         <>
         <GenHeader/>
-        Register
+        <div className="flex flex-col border w-full h-90 py-5 items-center gap-2 text-slate-900">
+            <h1 className='mb-5 text-2xl text-slate-200'>Register</h1>
+            {
+            errorMessage && 
+            <div className="fail"> 
+                {errorMessage} 
+                </div> 
+                }
+            <h4 className='text-slate-200'>Username</h4>    
+            <input 
+                value={userInfo.username}
+                type="text"
+                title="username"
+                onChange={handleRegister}
+                placeholder="username"
+                className='w-70'/>
+            <h4 className='text-slate-200'>Email</h4>
+            {
+                !isEmailCorrect && <span className='text-red-700'>Your email does not match</span>
+            }
+            <div className='flex gap-5'>
+                <input 
+                    value={userInfo.email}
+                    type="email"
+                    title="email"
+                    onChange={handleRegister}
+                    placeholder="someone@gmail.com"
+                    className='w-70'/>
+                <input 
+                    onChange={e => {
+                        if(e.target.value === userInfo.email){
+                            setIsEmailCorrect(true)
+                        } else {
+                            setIsEmailCorrect(false)
+                        }
+                    }}
+                    placeholder="Confirm Email"
+                    className='w-70'/>
+            </div>
+            <h4 className='text-slate-200'>Password</h4>
+                {
+                    !isPWCorrect && <span className=' text-red-700'>Your passwords do not match</span>
+                }
+            <div className='flex gap-5'>
+                <input 
+                    value={userInfo.password}
+                    onChange={handleRegister}
+                    type="password"
+                    title="password"
+                    placeholder="Password"
+                    className='w-70'/>
+                <input 
+                    onChange={e => {
+                        if(e.target.value === userInfo.password){
+                            setIsPWCorrect(true)
+                        } else {
+                            setIsPWCorrect(false)
+                        }
+                    }}
+                    type="password"
+                    placeholder="Confirm Password"
+                    className='w-70'/>
+            </div>
+            <button 
+                disabled={!userInfo.email || !userInfo.password}
+                className='w-50 border rounded px-4 py-2 my-4 hover:bg-slate-300 hover:cursor-pointer text-slate-200 hover:text-slate-700'>
+                Register
+            </button>
+        </div>
         </>
     )
 }
