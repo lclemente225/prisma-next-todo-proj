@@ -1,16 +1,20 @@
 'use client'
 import React, {useState} from 'react'
 import Link from 'next/link'
+import { redirect } from 'next/navigation'
 import GenHeader from '../ui/dashboard/GenHeader'
 
-export default async function Login(){
+export default function Login(){
     'use client'
+    const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
 
-    function loginSubmit(){
-        fetch('/lib/login', {
+    function loginSubmit(e){
+        e.preventDefault()
+        console.log("logging in")
+        fetch('/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -20,36 +24,54 @@ export default async function Login(){
                 password: passwordValue
             })
         })
-        .then((res) => res.json())
-        .then((data) => console.log(data))
-        .catch(error => setErrorMessage(error))
+        .then((res) => {
+            console.log(res)
+            if(res.status === 401){
+                setErrorMessage(res.statusText)
+            }
+            return res.json()})
+        .then(data => {
+            setSuccessMessage(data.message)
+            redirect('/todoList')
+        })
+        .catch(error => {
+            setErrorMessage(error.statusText)
+            console.error("error logging in", error)})
     }
 
     return (
         <>
         <GenHeader/>
-        <div className="flex flex-col border w-full h-90 py-5 items-center gap-2">
+        <form 
+            onSubmit={loginSubmit}
+            className="flex flex-col border w-full h-90 py-5 items-center gap-2">
             <h1 className='mb-5 text-2xl'>Log In</h1>
             {
             errorMessage && 
             <div className="fail"> 
-                {errorMessage} 
+                {errorMessage}, <Link href='/' className="hover:text-red-500">Go back to home page</Link>
                 </div> 
                 }
+            {
+                successMessage &&
+                <div>
+                    {successMessage}
+                </div>
+            }
             <input 
                 value={emailValue}
                 onChange={e => setEmailValue(e.target.value)}
                 placeholder="someone@gmail.com"
-                className='w-70'/>
+                className='w-70 text-slate-900'/>
             <input 
                 value={passwordValue}
                 onChange={e => setPasswordValue(e.target.value)}
                 type="password"
                 placeholder="password"
-                className='w-70'/>
+                className='w-70 text-slate-900'/>
             <button 
                 disabled={!emailValue || !passwordValue}
-                onSubmit={loginSubmit}
+                type='submit'
                 className='w-50 border rounded px-4 py-2 my-4 hover:bg-slate-300 hover:cursor-pointer '>
                 
                 Log In
@@ -60,7 +82,7 @@ export default async function Login(){
                 Don't have an account? 
                 <Link href='/register'className='hover:text-green-400 mx-2'>Sign Up with Us!</Link>
             </div>
-        </div>
+        </form>
         </>
     )
 }

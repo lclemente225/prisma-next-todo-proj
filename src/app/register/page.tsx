@@ -26,7 +26,6 @@ export default function Register(){
     }
 
     function handleRegisterSubmit(e){
-        console.log(JSON.stringify(userInfo))
         e.preventDefault()
         fetch('/api/register', {
             method: 'POST',
@@ -36,8 +35,7 @@ export default function Register(){
             body: JSON.stringify(userInfo)
         })
         .then((res) => {
-            console.log("register check 1", res)
-            return 
+            redirect('/todoList')
         })
         .catch(error => {
             console.log("register error", error)
