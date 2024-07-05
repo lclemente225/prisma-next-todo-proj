@@ -43,15 +43,16 @@ export default async function Home(){
 
     return (
       <>
-        <header className=' flex justify-between items-center mb-4'>
+        <header className='flex justify-between items-center mb-4 py-4'>
           <h1 className="text-2xl">
-            <Link href='/'>Todos</Link>
+            <Link href='/todoList'>Todos</Link>
           </h1>
           <Link href="/new" className='border border-slate-300 text-slate-300 px-2 py-1
           rounded hover:bg-slate-700 focus-within:bg-slate-700 outline-none'
           >
             New
           </Link>
+          
         </header>
         <ul className='pl-4'>
           {
@@ -67,7 +68,7 @@ export default async function Home(){
 
     return (
       <>
-      <header className=' flex justify-between items-center mb-4'>
+      <header className=' flex justify-between items-center mb-4 py-4'>
           <h1 className="text-2xl">
             Todos
           </h1>
