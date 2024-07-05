@@ -79,7 +79,7 @@ export default function Login(){
             <button>Forgot Password?</button>
 
             <div>
-                Don't have an account? 
+                Don&apos;t have an account? 
                 <Link href='/register'className='hover:text-green-400 mx-2'>Sign Up with Us!</Link>
             </div>
         </form>

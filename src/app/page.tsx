@@ -11,7 +11,7 @@ export default async function Home(){
       <>
       <GenHeader/>
       <span className='flex text-3xl justify-center items-center mb-4'>
-        Welcome to Lawrence's Task List App.
+        Welcome to Lawrence&apos;s Task List App.
       </span>
       <div className='flex flex-col h-full w-100 justify-center items-center gap-2 '>
       <Image src="/Notebook graphic.png"
