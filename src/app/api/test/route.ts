@@ -1,4 +1,4 @@
-import prismadb from '@/db';
+/* import prismadb from '@/db';
 
 export default function handler(req: Request) {
   async function handleClick(){
@@ -16,4 +16,4 @@ export default function handler(req: Request) {
     status: 200
   })
 }
-
+ */
