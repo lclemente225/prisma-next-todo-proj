@@ -3,6 +3,7 @@ import prismadb from '@/db';
 import bcrypt from 'bcryptjs'
 
 export default async function registerHandler(req: NextApiRequest, res: NextApiResponse) {
+  'use server'
   if (req.method === 'POST') {
     const { username, email, password } = req.body;
     let salt = bcrypt.genSaltSync(15);
