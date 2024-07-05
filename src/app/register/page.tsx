@@ -35,10 +35,9 @@ export default function Register(){
             },
             body: JSON.stringify(userInfo)
         })
-        .then((res) => res.json())
-        .then((data) => {
-            console.log("registering", data)
-            //redirect('/')
+        .then((res) => {
+            console.log("register check 1", res)
+            return 
         })
         .catch(error => {
             console.log("register error", error)
