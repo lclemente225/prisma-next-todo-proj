@@ -10,10 +10,19 @@ export default async function Login(){
     const [passwordValue, setPasswordValue] = useState('');
 
     function loginSubmit(){
-        fetch('/lib/login')
-        .then(() => {
-            
+        fetch('/lib/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: emailValue,
+                password: passwordValue
+            })
         })
+        .then((res) => res.json())
+        .then((data) => console.log(data))
+        .catch(error => setErrorMessage(error))
     }
 
     return (
@@ -40,7 +49,7 @@ export default async function Login(){
                 className='w-70'/>
             <button 
                 disabled={!emailValue || !passwordValue}
-                onSubmit={}
+                onSubmit={loginSubmit}
                 className='w-50 border rounded px-4 py-2 my-4 hover:bg-slate-300 hover:cursor-pointer '>
                 
                 Log In

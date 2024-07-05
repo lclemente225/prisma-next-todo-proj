@@ -21,18 +21,36 @@ export default function Register(){
 
     function handleUserData(e:any){
         setUserInfo((obj:userInfoTypes) => {
-        console.log(obj)
         return {...obj, [e.target.title]:e.target.value}
         })
     }
 
-    function handleRegisterSubmit(){
-        
+    function handleRegisterSubmit(e){
+        console.log(JSON.stringify(userInfo))
+        e.preventDefault()
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userInfo)
+        })
+        .then((res) => res.json())
+        .then((data) => {
+            console.log("registering", data)
+            //redirect('/')
+        })
+        .catch(error => {
+            console.log("register error", error)
+            })
     }
+
     return (
         <>
         <GenHeader/>
-        <div className="flex flex-col border w-full h-90 py-5 items-center gap-2 text-slate-900">
+        <form
+            onSubmit={handleRegisterSubmit} 
+            className="flex flex-col border w-full h-90 py-5 items-center gap-2 text-slate-900">
             <h1 className='mb-5 text-2xl text-slate-200'>Register</h1>
             {
             errorMessage && 
@@ -72,9 +90,9 @@ export default function Register(){
                     className='w-70'/>
             </div>
             <h4 className='text-slate-200'>Password</h4>
-                {
-                    !isPWCorrect && <span className=' text-red-700'>Your passwords do not match</span>
-                }
+            {
+                !isPWCorrect && <span className=' text-red-700'>Your passwords do not match</span>
+            }
             <div className='flex gap-5'>
                 <input 
                     value={userInfo.password}
@@ -96,11 +114,12 @@ export default function Register(){
                     className='w-70'/>
             </div>
             <button 
+                type='submit'
                 disabled={!userInfo.email || !userInfo.password}
                 className='w-50 border rounded px-4 py-2 my-4 hover:bg-slate-300 hover:cursor-pointer text-slate-200 hover:text-slate-700'>
                 Register
             </button>
-        </div>
+        </form>
         </>
     )
 }
