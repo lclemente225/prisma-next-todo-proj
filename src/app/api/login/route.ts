@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/dist/server/web/spec-extension/request';
 import prismadb from '@/db';
 import bcrypt from 'bcryptjs';
-import { redirect } from 'next/navigation';
+import {cookies} from 'next/headers';
 import NextAuth from 'next-auth';
 import { authConfig } from '../../../../auth.config';
 import Credentials from 'next-auth/providers/credentials';
@@ -27,13 +27,11 @@ export async function POST(req: NextRequest) {
         status: 401
       })
     }else{
+      cookies().set('userInfo', JSON.stringify({username: user.username, id: user.id, email: user.email}))
       return new Response(JSON.stringify({ message: 'Login successful' }), {
         status: 200
       })
     }
-
-    // Here you should handle creating a session or JWT for the user
-    // For now, let's just return a success message
     
 
   // Handle any other HTTP method

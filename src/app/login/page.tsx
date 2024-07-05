@@ -1,11 +1,12 @@
 'use client'
 import React, {useState} from 'react'
 import Link from 'next/link'
-import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import GenHeader from '../ui/dashboard/GenHeader'
 
 export default function Login(){
     'use client'
+    const router = useRouter();
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [emailValue, setEmailValue] = useState('');
@@ -25,14 +26,13 @@ export default function Login(){
             })
         })
         .then((res) => {
-            console.log(res)
             if(res.status === 401){
                 setErrorMessage(res.statusText)
             }
             return res.json()})
         .then(data => {
             setSuccessMessage(data.message)
-            redirect('/todoList')
+            router.push('/todoList')
         })
         .catch(error => {
             setErrorMessage(error.statusText)

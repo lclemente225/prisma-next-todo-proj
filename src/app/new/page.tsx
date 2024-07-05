@@ -1,7 +1,8 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+import Link from 'next/link';
 import prismadb from '@/db';
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers';
 
 //form action fn
 async function createTodo(data:FormData){  
@@ -17,13 +18,16 @@ async function createTodo(data:FormData){
     if(typeof duration !== 'number' || !duration){
       throw new Error("invalid duration")
     }
-    let {userId, username} = JSON.parse(localStorage.getItem("userInfo"));
+
+    let userInfo = JSON.parse(cookies().get('userInfo').value);
+    let userId = userInfo.id;
+
     await prismadb.todo.create({
         data:{
             title,
             duration, 
             complete: false,
-            userId: userId ? userId : 0
+            userId: userId ? userId :' 0'
         }
     })
     redirect("/todoList")
@@ -53,7 +57,7 @@ const Page = () => {
             outline-none focus-within:border-slate-100'/>
           
         <div className='flex gap-1 justify-center my-3'>
-            <Link href=".." 
+            <Link href="/todoList" 
                 className='border border-slate-300 text-slate-300 px-2 py-1
                 rounded hover:bg-slate-700 focus-within:bg-slate-700 outline-none'>
                 Cancel

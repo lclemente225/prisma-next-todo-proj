@@ -1,8 +1,8 @@
 'use client'
-import React, {useState} from 'react'
-import Link from 'next/link'
+import React, {useState} from 'react';
+import Link from 'next/link';
 import prismadb from '@/db';
-import { redirect } from 'next/navigation';
+import {useRouter} from 'next/navigation';
 import GenHeader from '../ui/dashboard/GenHeader';
 
 interface userInfoTypes {
@@ -14,7 +14,9 @@ interface userInfoTypes {
 export default function Register(){
     'use client'
     //@ts-ignore
+    const router = useRouter();
     const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const [userInfo, setUserInfo] = useState<userInfoTypes>({email:'', password:'', username:''});
     const [isPWCorrect, setIsPWCorrect] = useState(false);
     const [isEmailCorrect, setIsEmailCorrect] = useState(false);
@@ -34,8 +36,10 @@ export default function Register(){
             },
             body: JSON.stringify(userInfo)
         })
-        .then((res) => {
-            redirect('/todoList')
+        .then((res) => res.json())
+        .then(data => {
+            setSuccessMessage(data.message)
+            router.push('/login')
         })
         .catch(error => {
             console.log("register error", error)
@@ -54,7 +58,13 @@ export default function Register(){
             <div className="fail"> 
                 {errorMessage} 
                 </div> 
-                }
+            }
+             {
+                successMessage &&
+                <div>
+                    {successMessage}
+                </div>
+            }
             <h4 className='text-slate-200'>Username</h4>    
             <input 
                 value={userInfo.username}
