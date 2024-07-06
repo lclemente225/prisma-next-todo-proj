@@ -25,7 +25,7 @@ export default function Register(){
         })
     }
 
-    function handleRegisterSubmit(e){
+    function handleRegisterSubmit(e:any){
         e.preventDefault()
         fetch('/api/register', {
             method: 'POST',
