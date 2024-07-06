@@ -1,7 +1,5 @@
 'use client'
 import React, {useState} from 'react';
-import Link from 'next/link';
-import prismadb from '@/db';
 import {useRouter} from 'next/navigation';
 import GenHeader from '../ui/dashboard/GenHeader';
 
@@ -14,13 +12,13 @@ interface userInfoTypes {
 export default function Register(){
     'use client'
     //@ts-ignore
-    const router = useRouter();
     const [errorMessage, setErrorMessage] = useState('');
     const [successMessage, setSuccessMessage] = useState('');
     const [userInfo, setUserInfo] = useState<userInfoTypes>({email:'', password:'', username:''});
     const [isPWCorrect, setIsPWCorrect] = useState(false);
     const [isEmailCorrect, setIsEmailCorrect] = useState(false);
-
+    const router = useRouter();
+ 
     function handleUserData(e:any){
         setUserInfo((obj:userInfoTypes) => {
         return {...obj, [e.target.title]:e.target.value}

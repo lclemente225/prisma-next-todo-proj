@@ -6,15 +6,14 @@ import GenHeader from '../ui/dashboard/GenHeader'
 
 export default function Login(){
     'use client'
-    const router = useRouter();
     const [successMessage, setSuccessMessage] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
+    const router = useRouter();
 
-    function loginSubmit(e){
+    function loginSubmit(e:any){
         e.preventDefault()
-        console.log("logging in")
         fetch('/api/login', {
             method: 'POST',
             headers: {
@@ -32,6 +31,7 @@ export default function Login(){
             return res.json()})
         .then(data => {
             setSuccessMessage(data.message)
+            console.log("successs")
             router.push('/todoList')
         })
         .catch(error => {

@@ -4,33 +4,44 @@ import prismadb from '@/db';
 import { redirect } from 'next/navigation';
 import { cookies } from 'next/headers';
 
+interface UserInfo {
+  username: string;
+  password: string;
+  id: string;
+  key: string;
+}
+
 //form action fn
+//@ts-ignore
 async function createTodo(data:FormData){  
     "use server"
     const title = data.get("title")?.valueOf();
     let duration = data.get("duration")?.valueOf();
-    //@ts-ignore
-    duration = parseInt(duration);
+    let durationNum = typeof duration === "string" && duration ? parseInt(duration) : undefined;
     if(typeof title !== 'string' || title.length === 0){
         throw new Error("invalid title")
     }
 
-    if(typeof duration !== 'number' || !duration){
+    if(typeof durationNum !== 'number' || !duration){
       throw new Error("invalid duration")
     }
-
-    let userInfo = JSON.parse(cookies().get('userInfo').value);
-    let userId = userInfo.id;
-
-    await prismadb.todo.create({
-        data:{
-            title,
-            duration, 
-            complete: false,
-            userId: userId ? userId :' 0'
-        }
-    })
-    redirect("/todoList")
+    let cookieInfo = cookies().get('userInfo');
+    if(cookieInfo){
+      let userInfo: UserInfo | undefined = JSON.parse(cookieInfo?.value);
+      let userId = userInfo?.id;
+  
+      await prismadb.todo.create({
+          data:{
+              title,
+              duration, 
+              complete: false,
+              userId: userId ? userId :' 0'
+          }
+      })
+      redirect("/todoList")
+    } else{
+      return
+    }
 }
 
 
