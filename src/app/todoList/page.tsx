@@ -1,7 +1,8 @@
-import Link from 'next/link'
+
 import  prismadb  from '@/db'
 import  TodoItem  from '@/app/ui/TodoItem'
 import { revalidatePath } from 'next/cache'
+import Header from '../ui/dashboard/Header'
 //THIS IS THE MAIN PAGE
 
 //change or update a value in database
@@ -43,17 +44,7 @@ export default async function Home(){
 
     return (
       <>
-        <header className='flex justify-between items-center mb-4 py-4'>
-          <h1 className="text-2xl">
-            <Link href='/todoList'>Todos</Link>
-          </h1>
-          <Link href="/new" className='border border-slate-300 text-slate-300 px-2 py-1
-          rounded hover:bg-slate-700 focus-within:bg-slate-700 outline-none'
-          >
-            New
-          </Link>
-          
-        </header>
+         <Header/>
         <ul className='pl-4'>
           {
           todos.map((todo: any) => (

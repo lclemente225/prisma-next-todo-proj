@@ -1,8 +1,8 @@
 'use client'
 import React, {useState} from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import GenHeader from '../ui/dashboard/GenHeader'
+import { loginSubmit } from './actions'
 
 export default function Login(){
     'use client'
@@ -10,40 +10,14 @@ export default function Login(){
     const [errorMessage, setErrorMessage] = useState('');
     const [emailValue, setEmailValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
-    const router = useRouter();
-
-    function loginSubmit(e:any){
-        e.preventDefault()
-        fetch('/api/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: emailValue,
-                password: passwordValue
-            })
-        })
-        .then((res) => {
-            if(res.status === 401){
-                setErrorMessage(res.statusText)
-            }
-            return res.json()})
-        .then(data => {
-            setSuccessMessage(data.message)
-            console.log("successs")
-            router.push('/todoList')
-        })
-        .catch(error => {
-            setErrorMessage(error.statusText)
-            console.error("error logging in", error)})
-    }
-
+   
     return (
         <>
         <GenHeader/>
         <form 
-            onSubmit={loginSubmit}
+            onSubmit={(e) => {
+                loginSubmit(e, setSuccessMessage, setErrorMessage, {emailValue, passwordValue})
+            }}
             className="flex flex-col border w-full h-90 py-5 items-center gap-2">
             <h1 className='mb-5 text-2xl'>Log In</h1>
             {
