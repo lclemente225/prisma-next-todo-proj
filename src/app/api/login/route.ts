@@ -1,4 +1,3 @@
-import { NextRequest } from 'next/dist/server/web/spec-extension/request';
 import prismadb from '@/db';
 import bcrypt from 'bcryptjs';
 import {cookies} from 'next/headers';
@@ -10,7 +9,7 @@ import Credentials from 'next-auth/providers/credentials';
   providers: [Credentials({loginHandler})],
 }); */
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
     const { email, password } = await req.json();
     let key = process.env.JWT;
 
