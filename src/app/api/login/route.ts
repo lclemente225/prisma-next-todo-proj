@@ -31,7 +31,6 @@ export async function POST(req: NextRequest) {
       }),{
         expires: Date.now() + oneDay
       })
-      console.log("log in check cookie", cookies().get('userInfo'))
       return new Response(JSON.stringify({ message: 'Login successful' }), {
         status: 200
       })

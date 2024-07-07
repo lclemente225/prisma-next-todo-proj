@@ -5,7 +5,6 @@ import { NextResponse } from 'next/server';
 export default function loginCheck(req: NextRequest){
     let cookie = req.cookies.get('userInfo');
     let url = req.url;
-    console.log("checking cookies AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", cookie, url)
 
     if(cookie){
         return NextResponse.rewrite(new URL(url))

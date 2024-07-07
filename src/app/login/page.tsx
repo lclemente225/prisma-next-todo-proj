@@ -28,7 +28,6 @@ export default function Login(){
             })
         })
         .then((res) => {
-            console.log("LOGGING IN ",res)
             if(res.status === 401){
                 setErrorMessage(res.statusText)
             }
@@ -39,6 +38,7 @@ export default function Login(){
             setTimeout(()=>{router.push('/todoList')}, 1000)
         })
         .catch(error => {
+            setSuccessMessage('')
             setErrorMessage(error.statusText)
             console.error("error logging in", error)})
     }
