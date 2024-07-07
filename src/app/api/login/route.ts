@@ -1,6 +1,7 @@
 import prismadb from '@/db';
 import bcrypt from 'bcryptjs';
-import {cookies} from 'next/headers';
+import { NextRequest } from 'next/server';
+import { cookies } from 'next/headers';
 import NextAuth from 'next-auth';
 import Credentials from 'next-auth/providers/credentials';
 
@@ -9,7 +10,8 @@ import Credentials from 'next-auth/providers/credentials';
   providers: [Credentials({loginHandler})],
 }); */
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  console.log("logging in")
     const { email, password } = await req.json();
     let key = process.env.JWT;
 
@@ -23,10 +25,13 @@ export async function POST(req: Request) {
         status: 401
       })
     }else{
+      let oneDay = 24*60*60*1000;
       cookies().set('userInfo', JSON.stringify({
         username: user.username, id: user.id, email: user.email, key 
-      }))
-      
+      }),{
+        expires: Date.now() + oneDay
+      })
+      console.log("log in check cookie", cookies().get('userInfo'))
       return new Response(JSON.stringify({ message: 'Login successful' }), {
         status: 200
       })

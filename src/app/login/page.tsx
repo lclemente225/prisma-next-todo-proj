@@ -15,13 +15,6 @@ export default function Login(){
 
     function loginSubmit(e: any){
         e.preventDefault()
-        //checking cookie should be middleware
-        const userCookie = Cookies.get('userInfo');
-        console.log("checking cookie", userCookie)
-        if(userCookie){ 
-            router.push('/todoList')
-            return
-        }
     
         setSuccessMessage("Logging in...")
         fetch('/api/login', {
@@ -43,7 +36,7 @@ export default function Login(){
         .then(data => {
             setSuccessMessage(data.message)
             console.log("successs")
-            router.push('/todoList')
+            setTimeout(()=>{router.push('/todoList')}, 1000)
         })
         .catch(error => {
             setErrorMessage(error.statusText)

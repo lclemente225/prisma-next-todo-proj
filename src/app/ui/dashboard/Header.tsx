@@ -45,7 +45,7 @@ export default function Header() {
             <ul ref={myDivRef} className='absolute top-20 left-30 bg-slate-900 border p-10'>
                 <li onClick={() => {
                     logout()
-                    router.push('/')
+                    setTimeout(() => {router.push('/')}, 1000)
                     }} 
                     className='bg-slate-500 py-2 px-4 rounded hover:bg-slate-300 hover:cursor-pointer'>
                       Logout
