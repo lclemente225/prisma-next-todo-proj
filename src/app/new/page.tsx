@@ -18,7 +18,6 @@ async function createTodo(data:FormData){
     const title = data.get("title")?.valueOf();
     let duration = data.get("duration")?.valueOf();
     let durationNum = typeof duration === "string" ? parseInt(duration) : undefined;
-    console.log("DURATION NUM AAAAAAAA",durationNum, typeof durationNum)
     if(typeof title !== 'string' || title.length === 0){
         throw new Error("invalid title")
     }
