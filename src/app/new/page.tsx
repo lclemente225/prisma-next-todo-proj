@@ -17,7 +17,7 @@ async function createTodo(data:FormData){
     "use server"
     const title = data.get("title")?.valueOf();
     let duration = data.get("duration")?.valueOf();
-    let durationNum = typeof duration === "string" && duration ? parseInt(duration) : undefined;
+    let durationNum = typeof duration === "string" ? parseInt(duration) : undefined;
     if(typeof title !== 'string' || title.length === 0){
         throw new Error("invalid title")
     }
@@ -49,7 +49,7 @@ const Page = () => {
   return (
     <>
       <header className=' flex justify-between items-center mb-4'>
-            <h1 className="text-2xl">
+            <h1 className="text-2xl py-4">
                 New Todos
             </h1>
       </header>

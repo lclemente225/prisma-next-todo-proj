@@ -8,13 +8,13 @@ export default function loginCheck(req: NextRequest){
     console.log("checking cookies AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", cookie, url)
 
     if(cookie){
-        return NextResponse.rewrite(new URL(`/todoList`, url))
+        return NextResponse.rewrite(new URL(url))
     } else {
-        return NextResponse.rewrite(new URL(`/login`, url))
+        return NextResponse.rewrite(new URL(`/`, url))
     }
 }
 export const config = {
     matcher: [
-      '/((?!api|_next/static|_next/image|favicon.ico).*)',
+      '/((?!api|_next/static|_next/image|favicon.ico).+/)'
     ],
   }
