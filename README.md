@@ -1,6 +1,6 @@
 ## Project Details
 This is my first project using Prisma, MongoDB, Typescript and NextJs.
-<a href="https://adhd-todo.netlify.app/">View Live Demo</a>
+<a href="https://adhd-todo.netlify.app/" target="_blank">View Live Demo</a>
 
 
 ## Purpose
